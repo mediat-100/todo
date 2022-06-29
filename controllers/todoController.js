@@ -2,11 +2,20 @@ const Todo = require('../models/todo');
 
 exports.getAllTodo = async (req, res) => {
   try {
-    const todos = await Todo.find();
+    const { page = 1, limit = 3 } = req.query;
+
+    const todos = await Todo.find()
+      .skip((page - 1) * limit)
+      .limit(limit * 1);
+
+    // get total count of todos in DB
+    const count = await Todo.countDocuments();
 
     return res.status(200).json({
       status: 'success',
       todo: todos,
+      totalPages: count / limit,
+      currentPage: page * 1,
     });
   } catch (err) {
     return res.status(500).json({

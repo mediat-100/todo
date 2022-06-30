@@ -13,8 +13,9 @@ exports.getAllTodo = async (req, res) => {
 
     return res.status(200).json({
       status: 'success',
+      total: count,
       todo: todos,
-      totalPages: count / limit,
+      totalPages: Math.ceil(count / limit),
       currentPage: page * 1,
     });
   } catch (err) {
@@ -66,7 +67,7 @@ exports.createTodo = async (req, res) => {
   }
 };
 
-exports.editTodo = async (req, res) => {
+exports.updateTodo = async (req, res) => {
   try {
     const existingTodo = await Todo.findByIdAndUpdate(req.params.id, req.body, {
       new: true,

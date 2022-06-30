@@ -7,6 +7,10 @@ const todoSchema = new mongoose.Schema(
       required: [true, 'A todo must have a title'],
     },
     description: String,
+    completed: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: true,
